@@ -67,9 +67,9 @@ static int zmq_grc_ccsds_tx(csp_iface_t * iface, uint16_t via, csp_packet_t * pa
         len_total = ccsds_pack_next_frame(&drv->tx_ccsds_obj, packet, frame_buffer, drv->tx_ccsds_obj.this_seq);
         drv->tx_ccsds_obj.this_seq++;
 
-        // pthread_mutex_lock(&lock);
+        pthread_mutex_lock(&lock);
         int result = zmq_send(drv->publisher, frame_buffer, len_total, 0);
-        // pthread_mutex_unlock(&lock);
+        pthread_mutex_unlock(&lock);
 
         if (result < 0) {
             csp_print("ZMQ send error: %u %s\n", result, zmq_strerror(zmq_errno()));
