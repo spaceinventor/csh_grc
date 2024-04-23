@@ -1,0 +1,15 @@
+[submodule "lib/apm_csh"]
+	path = lib/apm_csh
+	url = https://github.com/spaceinventor/libapm_csh.git
+[submodule "lib/csp"]
+	path = lib/csp
+	url = https://github.com/spaceinventor/libcsp.git
+[submodule "lib/param"]
+	path = lib/param
+	url = https://github.com/spaceinventor/libparam.git
+[submodule "lib/slash"]
+	path = lib/slash
+	url = https://github.com/spaceinventor/slash.git
+[submodule "lib/ccsds"]
+	path = lib/ccsds
+	url = https://github.com/spaceinventor/libccsds.git
