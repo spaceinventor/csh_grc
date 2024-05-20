@@ -120,10 +120,10 @@ static void * zmq_grc_ccsds_task(void * param) {
 static int csp_grc_zmq_init(const char * ifname, const char * host, uint16_t addr, uint16_t netmask, csp_iface_t ** return_interface, uint16_t subport, uint16_t pubport) {
 	
 	char pub[100];
-	csp_zmqhub_make_endpoint(host, subport, pub, sizeof(pub));
+	csp_zmqhub_make_endpoint(host, pubport, pub, sizeof(pub));
 
 	char sub[100];
-	csp_zmqhub_make_endpoint(host, pubport, sub, sizeof(sub));
+	csp_zmqhub_make_endpoint(host, subport, sub, sizeof(sub));
 
 	int ret;
 	(void)ret; /* Silence unused variable warning (promoted to an error if -Werr) issued when building with NDEBUG (release with asserts turned off) */
