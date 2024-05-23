@@ -19,7 +19,7 @@
 #include <unistd.h>
 #include <csp/interfaces/csp_if_zmqhub.h>
 
-#include <ccsds.h>
+#include <ccsds/ccsds.h>
 #include <crypto/crypto.h>
 
 static int ifidx = 0;
