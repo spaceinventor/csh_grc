@@ -37,6 +37,11 @@ typedef struct {
     ccsds_frame_obj_t rx_ccsds_obj;
 } zmq_driver_t;
 
+struct grc_msg_s {
+	char padding[29];
+	uint8_t *frame;
+};
+
 /* Linux is fast, so we keep it simple by having a single lock */
 static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
 
@@ -67,8 +72,18 @@ static int zmq_grc_ccsds_tx(csp_iface_t * iface, uint16_t via, csp_packet_t * pa
         len_total = ccsds_pack_next_frame(&drv->tx_ccsds_obj, packet, frame_buffer, drv->tx_ccsds_obj.this_seq);
         drv->tx_ccsds_obj.this_seq++;
 
+	struct grc_msg_s pack = {
+		.padding = {	
+		0x07, 0x09, 0x07, 0x02, 0x00, 0x09, 0x72,
+		0x73, 0x5f, 0x65, 0x72, 0x72, 0x6f, 0x72,
+		0x73, 0x03, 0x00, 0x00, 0x00, 0x00, 0x06,
+		0x0a, 0x00, 0x00, 0x00, 0x00, 0x0a, 0x01,
+		0x00 },
+		.frame = frame_buffer
+	};
+
         pthread_mutex_lock(&lock);
-        int result = zmq_send(drv->publisher, frame_buffer, len_total, 0);
+        int result = zmq_send(drv->publisher, (void *) &pack, len_total, 0);
         pthread_mutex_unlock(&lock);
 
         if (result < 0) {
